@@ -1,7 +1,9 @@
 package com.devecolibri.database;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
+import java.util.Arrays;
 
 public class Main {
 
@@ -20,7 +22,15 @@ public class Main {
 
         try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
              Statement statement = connection.createStatement()) {
-            System.out.println(connection.isClosed());
+            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch1', 'desc');");
+            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch2', 'desc');");
+            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch3', 'desc');");
+            statement.executeBatch();
+
+            statement.clearBatch();
+            System.out.println(statement.isClosed());
+
+
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
