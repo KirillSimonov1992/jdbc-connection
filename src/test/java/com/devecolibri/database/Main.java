@@ -12,28 +12,25 @@ public class Main {
     private static final String PASSWORD = "bestuser";
 
     public static void main(String[] args) {
-
+        DBWorker worker = new DBWorker();
+        String query = "SELECT * FROM users";
         try {
-            Driver driver = new com.mysql.cj.jdbc.Driver();
-            DriverManager.registerDriver(driver);
+            Statement statement = worker.getConnection().createStatement();
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while(resultSet.next()) {
+                User user = new User();
+                user.setId(resultSet.getInt(1));
+                user.setUserName(resultSet.getString(2));
+                user.setPassword(resultSet.getString(3));
+                System.out.println(user);
+            }
+
         } catch (SQLException e) {
-            System.out.println("Failed download jdbc driver!");
+            e.printStackTrace();
         }
 
-        try (Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-             Statement statement = connection.createStatement()) {
-            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch1', 'desc');");
-            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch2', 'desc');");
-            statement.addBatch("INSERT INTO animal(anim_name, anim_desc) VALUES('batch3', 'desc');");
-            statement.executeBatch();
 
-            statement.clearBatch();
-            System.out.println(statement.isClosed());
-
-
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }
 
     }
 }
