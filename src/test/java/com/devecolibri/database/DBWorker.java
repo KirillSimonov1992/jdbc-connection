@@ -21,4 +21,12 @@ public class DBWorker {
     public Connection getConnection() {
         return connection;
     }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch(SQLException e) {
+            System.out.println("Don't close connection. By cause: " + e.getMessage());
+        }
+    }
 }

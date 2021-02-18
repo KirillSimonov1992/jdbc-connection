@@ -5,11 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.*;
 import java.util.Arrays;
 
-public class Main {
-
-    private static final String URL = "jdbc:mysql://localhost:3306/mydbtest";
-    private static final String USERNAME = "bestuser";
-    private static final String PASSWORD = "bestuser";
+public class Test1 {
 
     public static void main(String[] args) {
         DBWorker worker = new DBWorker();
@@ -28,9 +24,8 @@ public class Main {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            worker.closeConnection();
         }
-
-
-
     }
 }
